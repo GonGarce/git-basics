@@ -3,7 +3,7 @@ title: Crear y Clonar repositorios
 description: Referencias rápidas para crear y clonar repositorios
 ---
 
-### Crear
+## Crear
 
 Iniciar un repositorio local
 
@@ -11,7 +11,7 @@ Iniciar un repositorio local
 git init
 ````
 
-### Clonar
+## Clonar
 
 Clonar en una carpeta con el mismo nombre que el repositorio remoto
 
@@ -25,7 +25,7 @@ Clonar en una carpeta con un nombre personalizado
 git clone https://github.com/GonGarce/git-basics.git my-repo
 ````
 
-### Básico sobre remotos
+## Básico sobre remotos
 
 Añadir un repositorio remoto
 

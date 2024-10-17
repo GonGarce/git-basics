@@ -26,37 +26,14 @@ export default defineConfig({
           translations: {
             en: 'Introduction',
           },
-          items: [
-            {
-              label: 'Sistemas de Control de Versiones',
-              slug: 'guides/cvs',
-              translations: {
-                en: 'Version Control Systems',
-              },
-            },
-            {
-              label: 'Sistemas de Control de Versiones Distribuídos',
-              slug: 'guides/dcvs',
-              translations: {
-                en: 'Distributed Version Control Systems',
-              },
-            },
-          ],
+          autogenerate: { directory: '0-intro' },
         },
         {
           label: 'Primeros pasos con Git',
           translations: {
             en: 'First steps with Git',
           },
-          items: [
-            {
-              label: 'Crear y clonar repositorios',
-              slug: 'git-first-steps/create-and-clone',
-              translations: {
-                en: 'Creating and cloning repositories',
-              },
-            },
-          ],
+          autogenerate: { directory: '1-first-steps' },
         },
         {
           label: 'Referencias rápidas',

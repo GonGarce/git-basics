@@ -1,0 +1,170 @@
+---
+title: Guardar cambios
+description: Cómo confirmar cambios y empezar a hacer historia.
+---
+import { Badge } from '@astrojs/starlight/components';
+
+En estas sección empezaremos a escribir nuestra propia historia, vamos a ver como confirmar los cambios que hacemos en nuestro código o nuestros
+archivos para que git los guarde y pueda llevar un registro de todos estos cambios a lo largo del tiempo.
+
+:::tip
+Si ya conoces los comandos ``git add`` y ``git commit`` y todas sus opciones, puedes saltarte este capítulo, pero si aún no te sientes seguro sobre cómo usarlo o cómo sacarle el máximo partido continúa leyendo.
+:::
+
+## ¿Qué es confirmar un cambio?
+
+Cuando realizamos cambios en nuestro sistema local, esos cambios están en el área de trabajo (*working directory*), pero no son permanentes para
+nuestro Git hasta que le digamos que debe guardarlos definitivamente. Eso se llama hacer un <Badge text="commit" variant="note" />.
+
+:::note
+En Español se puede traducir como confirmar, aunque todo el mundo utiliza anglicismos como "hacer un commit" o "commitear".
+:::
+
+Un commit es una captura de la versión actual del proyecto en ese momento, guarda los cambios que has hecho y te permite volver a esa versión si
+lo necesitas.
+
+Cada commit tiene un identificador único (un _hash_) que puedes usar para referirte a él en distintas operaciones, por ejemplo si quieres regresar
+a ese estado del proyecto.
+
+
+## ¿Cómo hacer un commit?
+
+Lo primero para hacer un commit es indicarle al sistema que cambios queremos que guarde. Puede que hayamos modificado varios archivos, o eliminado
+otros, pero que solo queramos guardar parte de esos cambios, al menos de momento.
+
+Los archivos que queremos confirmar pasarán del área de trabajo al área de preparación (_staging area_) y estarán listos para ser añadidos a la historia
+del proyecto con un commit.
+
+:::tip
+Recuerda que puedes ver todos los archivos modificados, aquellos en el working area o en el staging area, con el comando ``git status``
+:::
+
+### Añadir archivos para hacer un commit <Badge text="git add" variant="note" />
+
+Para indicarle a Git archivos debe añadir al staging área, para guardarlos al hacer el commit se utiliza el commando ``git add``.
+
+Este comando es muy versátil, con el podemos añadir tanto archivos individuales como directorios enteros, incluso todos los cambios existentes.
+La forma más común de ejecutarlo es de la siguiente manera:
+
+````sh frame=none
+git add .
+````
+
+Eso añadirá todos los cambios que estuviesen guardados en el área de trabajo al staging area.
+
+¿Por qué? Eso se debe a que el comando ``add`` permite utilizar expresiones regulares para seleccionar archivos.
+
+:::note
+Recuerda que un punto ``.`` en una expresión regular significa "todo". Entonces, ``git add .`` es lo mismo que decirle a Git "añade todos los cambios de este directorio y sus subdirectorios".
+
+Otras carácteres especiales que puedes utilizar son: el asterisco `*` para indicar cualquier número de caracteres (incluyendo ninguno), la interrogación `?` para indicar un solo caracter, y los corchetes `[]` para definir rangos o conjuntos de caracteres.
+:::
+
+Por ejemplo, si quieres añadir todos los archivos que terminen con `.txt`, puedes usar:
+
+````sh frame=none
+git add *.txt
+````
+
+Para añadir todos los archivos de un subdirectorio llamado ``components`` puedes usar la siguiente expresión:
+
+````sh frame=none
+git add **/components/*
+````
+
+Para añadir un único archivo puedes indicar su ruta completa, o puedes buscar una expresión más sencilla que solo lo incluya a él, por ejemplo, si
+quiero agregar el archivo ``src/content/docs/1-git-first-steps/2-confirm-changes.mdx`` puedo hacerlo de varias maneras:
+
+````sh frame=none
+git add src/content/docs/1-git-first-steps/2-confirm-changes.mdx
+git add **/2-confirm-changes.mdx
+git add **/*-changes.mdx # Aunque esto podría incluir a otros archivos que terminen con "-changes.mdx"
+````
+
+### Hacer un commit de los cambios agregados <Badge text="git commit" variant="note"/>
+
+Una vez que hemos seleccionado y agregado los archivos que deseamos guardar, está todo listo para realizar nuestro commit.
+
+Un commit representa una serie de cambios en el proyecto, por eso cada vez que hacemos un commit es obligatorio escribir un mensaje descriptivo
+sobre dichos cambios. 
+
+:::note
+Recuerda que puede haber mucha gente colaborando en un proyecto y que la vida de los proyectos puede alargarse indefinidamente.
+
+Por ello es importante hacer mensajes claros y detallados de los cambios que incluyen nuestros commits.
+:::
+
+Para hacer nuestro primero commit solo tenemos que ejecutar el siguiente comando:
+
+````sh frame=none
+git commit
+````
+
+Si añadimos correctamente los archivos modificados, Git nos abrirá nuestro editor de texto configurado (nano, vim, bloc de notas...) 
+para que podamos escribir nuestro mensaje. Cuando guardemos y cerremos el editor se ejecutará nuestro commit y quedará escrito en la historia
+para siempre.
+
+## Parámetros útiles al hacer un commit
+
+Hacer un commit es un acción importante, pero también es algo que realizamos de forma habitual, es por estos dos motivos que cuenta con varios parámetros
+o flags que nos permiten ejecutarlo de forma más cómoda o con ciertos efectos secundarios que nos será de utilidad.
+
+### Usar un mensaje rápido <Badge text="git commit -m" variant="note"/>
+
+Es habitual, sobre todo cuando trabajamos solos o en funcionalidades en progreso, escribir mensajes cortos. Para hacer un commit con un mensaje breve
+sin que se abra el editor de texto podemos usar el flag ``-m`` seguido del mensaje, por ejemplo el primer commit de un proyecto suele ser:
+
+````sh frame=none
+git add .
+git commit -m "Initial commit"
+````
+
+### Añadir todos los archivos modificados
+
+Los archivos que ya están en el radar de git, _tracked files_, se pueden añadir a un commit en el momento de hacerlo con el flag ``-a``:
+
+````sh frame=none
+git commit -a -m "Modified readme file"
+````
+
+Ten en cuenta que esto solo añadirá al commit los archivos que Git ya conocía, por ejemplo no se añadirán archivos que se hayan creado nuevos.
+
+### Reescribir el último commit
+
+No vamos a entrar en detalles aún, pero hay formas de reescribir la historia, es decir, modificar los commits existentes, lo que nos permite
+tanto modificar los mensajes, los autores como los archivos que se guardaron.
+
+En este caso nos vamos a centrar en cómo modificar el último mensaje.
+
+:::danger
+¡Nunca modifiques un commit que exista en un repositorio remoto!
+
+Cada commit tiene su propio hash que lo identifica, si lo cambiamos, realmente estamos eliminado ese punto de la historia y añadiendo otro nuevo,
+esto generará muchos conflictos si otra persona tenía esa versión. Por eso nunca se debe reescribir la historia en repositorios remotos o cuando
+trabajamos con otras personas.
+:::
+
+Para hacer un commit con los cambios añadidos y modificar el commit anterior usaremos el flag ``--amend``:
+
+````sh frame=none
+git commit --amend -m "Modified readme file"
+````
+
+Si queremos reutilizar el mensaje anterior podemos usar el flag ``--no-edit``
+
+````sh frame=none
+git commit --amend --no-edit
+````
+
+### Modificar el author del último commit
+
+En ocasiones puede que queramos modificar el autor de un commit, por ejemplo si tenía mal la configuración global o local y me di cuenta después
+de hacer el commit. Para ello usaremos ``--reset-author``:
+
+````sh frame=none
+git commit  --amend --reset-author --no-edit
+````
+
+## Referencia rápida
+
+Consulta la [página de referencia rápida](/git-basics/reference/2-confirm-changes/) con todos estos comandos resumidos.
