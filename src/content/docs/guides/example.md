@@ -1,6 +1,6 @@
 ---
-title: Example Guide
-description: A guide in my new Starlight docs site.
+title: Sistemas de Control de Versiones
+description: Breve introducción a los sistemas de control de versiones
 ---
 
 Guides lead a user through a specific task they want to accomplish, often with a sequence of steps.
