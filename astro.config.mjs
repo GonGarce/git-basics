@@ -12,6 +12,8 @@ const { ALGOLIA_API_KEY, ALGOLIA_APP_ID, ALGOLIA_INDEX_NAME } = loadEnv(
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://gongarce.github.io',
+  base: 'git-basics',
   integrations: [
     starlight({
       title: "Git Basics",
