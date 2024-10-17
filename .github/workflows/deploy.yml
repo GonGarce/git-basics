@@ -23,8 +23,8 @@ jobs:
       - name: Create .env file
         run: |
           touch .env
-          echo ALGOLIA_APP_ID=${{ env.ALGOLIA_APP_ID }} >> .env
-          echo ALGOLIA_INDEX_NAME=${{ env.ALGOLIA_INDEX_NAME }} >> .env
+          echo ALGOLIA_APP_ID=${{ vars.ALGOLIA_APP_ID }} >> .env
+          echo ALGOLIA_INDEX_NAME=${{ vars.ALGOLIA_INDEX_NAME }} >> .env
           echo ALGOLIA_API_KEY=${{ secrets.ALGOLIA_API_KEY }} >> .env
       - name: Install, build, and upload your site
         uses: withastro/action@v3
