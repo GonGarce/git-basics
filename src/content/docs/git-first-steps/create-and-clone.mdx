@@ -1,0 +1,119 @@
+---
+title: Crear y Clonar repositorios
+description: Cómo crear y clonar repositorios de Git, comandos básicos
+---
+import { Badge } from '@astrojs/starlight/components';
+
+En esta sección veremos como crear repositorios locales, como clonar repositorios remotos y como conectar nuestro repositorio local con un repositorio remoto.
+
+:::tip
+Si ya conoces los comandos ``git init``, ``git clone`` y ``git remote`` puedes continuar en el siguiente paso.
+:::
+
+## Crear un repositorio local <Badge text="git init" variant="note" />
+Aunque lo más habitual es utilizar Git con algún servidor donde subir nuestro código (para compartirlo con el mundo, desarrollar con otras personas o simplemente tener una copia en otro lugar seguro), no es algo obligatorio, podemos usarlo para desarrollar de forma organizada en nuestro sistema.
+
+Para ello, lo primero que necesitamos es crear un repositorio. Para crear un repositorio git debemos situarnos en el directorio raíz de éste y ejecutar el comando ``git init``.
+
+```bash frame="none" 
+mkdir my-repo
+cd my-repo
+git init
+```
+Con este sencillo comando git crea un directorio oculto ``.git`` donde guardará toda la información que necesita para gestionar nuestro repositorio. 
+
+:::danger
+Eliminar el directorio ``.git`` destruirá de forma irreparable el estado de tu repositorio, su historial de cambios, ramas, etc.
+
+Solo se podría recuperar si a través de un repositorio remoto.
+:::
+
+Desde este momento **ya podemos comenzar a hacer commits** y utilizar el resto de fucionalidades de git para gestionar nuestro proyecto.
+
+Como ya se ha comentado, Git es un sistema de control de versiones distribuído lo que implica que cada desarrollador o persona que quiera 
+
+## Clonar un repositorio remoto <Badge text="git clone" variant="note" />
+
+En muchas ocasiones queremos empezar a trabajar sobre un código que ya existe en un repositorio remoto (un repositorio que está en la red) como por ejemplo un repositorio de github,
+o simplemente queremos descargar algún proyecto para utilizarlo o trabajar sobre él, esto es lo que se conoce como **clonar un repositorio**.
+
+Para clonar un repositorio necesitamos la url del repositorio git (no confundir con la url del cliente web donde podemos ver el código),
+por ejemplo, imaginemos que queremos clonar el repositorio de esta página (alojada en github) para cambiar una sección o accederla sin conexión.
+A través de github podemos obtener la url del repo: ``https://github.com/GonGarce/git-basics.git`` y para clonarlo usaríamos el comando:
+
+````bash frame="none"
+git clone https://github.com/GonGarce/git-basics.git
+````
+
+Este comando creará una copia local del repositorio en la carpeta ``git-basics``, que es el nombre del repositorio que hemos clonado.
+Si queremos que se clone en un **directorio distinto** podemos indicarlo a continuación de la url:
+
+````bash frame="none"
+git clone https://github.com/GonGarce/git-basics.git my-repo
+````
+
+Al clonar un repositorio no solo descargamos todos los archivos y directorios que contiene, creamos una repositorio local con toda la 
+información del repositorio remoto, es decir, todo su historial de cambios, ramas, etc.
+
+Además en nuestro repositorio local se configura, de forma automática, la url del repositorio que hemos clonado como un repositorio remoto de nuestra copia local.
+Ahora explicaremos que quiere decir esto.
+
+## Añadir repositorios remotos <Badge text="git remote" variant="note" />
+
+Hay diversos escenarios que nos pueden plantear la necesidad de tener que añadir un repositorio remoto a un repositorio local existente,
+el más común que se nos va a plantear será subir nuestro código local a un nuevo repositorio remoto.
+
+Cuando creamos un nuevo repositorio en algún servidor git (ya sea github, gitlab, bitbucke...) tenemos la opción de clonarlo recién creado,
+vacío, o añadirlo como fuente a nuestro repositorio local para poder subir los cambios que queramos.
+
+Para añadir un nuevo repositorio como fuente a nuestro repo local usaremos el comando ``git remote``. Este comando tiene muchas opciones
+y nos permite añadir fuentes remotas, eliminarlas, ver la lista de las fuentes configuradas, etc.
+
+````bash frame="none"
+git remote add origin https://github.com/GonGarce/git-basics.git 
+````
+
+Esto añade el repositorio remoto con el nombre de ``origin``. Podemos darle el nombre que queramos, pero es importante saber
+que cuando ejecutemos comandos que impliquen a repositorios remotos (subir o descargar cambios, etc.) git **utilizará
+el configurado como origin por defecto** si no le indicamos nosotros ninguno; por eso lo más común es usar ese nombre con
+nuestro repo principal o con el único configurado.
+
+:::note[¿Sabías qué?]
+Puedes ver todas las opciones disponibles de un comando utilizando el flag ``-h`` (help). Por ejemplo:
+````bash frame="none"
+git remote -h
+````
+````bash frame="none"
+usage: git remote [-v | --verbose]
+   or: git remote add [-t <branch>] [-m <master>] [-f] [--tags | --no-tags] [--mirror=<fetch|push>] <name> <url>
+   or: git remote rename [--[no-]progress] <old> <new>
+   or: git remote remove <name>
+   or: git remote set-head <name> (-a | --auto | -d | --delete | <branch>)
+   or: git remote [-v | --verbose] show [-n] <name>
+   or: git remote prune [-n | --dry-run] <name>
+   or: git remote [-v | --verbose] update [-p | --prune] [(<group> | <remote>)...]
+   or: git remote set-branches [--add] <name> <branch>...
+   or: git remote get-url [--push] [--all] <name>
+   or: git remote set-url [--push] <name> <newurl> [<oldurl>]
+   or: git remote set-url --add <name> <newurl>
+   or: git remote set-url --delete <name> <url>
+
+    -v, --verbose         be verbose; must be placed before a subcommand
+````
+:::
+
+### Ver los repositorios remotos
+
+Para ver los repositorios remotos configurados en tu repositorio local, puedes utilizar el comando:
+
+````bash frame="none"
+git remote -v
+````
+````bash frame="none"
+origin  git@github-gongarce:GonGarce/Git-Basics.git (fetch)
+origin  git@github-gongarce:GonGarce/Git-Basics.git (push)
+````
+
+## Quick reference
+
+- See the [quick reference page](/git-basics/reference/create-and-clone/) of all this commands.
