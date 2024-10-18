@@ -38,3 +38,8 @@ Ver todos los repositorios remotos
 ````bash frame="none"
 git remote -v
 ````
+
+## Sigue leyendo
+
+- Para más información puedes consultar la referencia completa del comando [init](https://git-scm.com/docs/git-init).
+- Para más información puedes consultar la referencia completa del comando [clone](https://git-scm.com/docs/git-clone).

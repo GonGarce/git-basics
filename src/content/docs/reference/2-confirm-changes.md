@@ -82,3 +82,7 @@ Reescribir el último commit, sin editar el mensaje y usando el autor actual.
 ````sh frame=none
 git commit  --amend --reset-author --no-edit
 ````
+
+## Sigue leyendo
+
+Para más información puedes consultar la referencia completa del comando [commit](https://git-scm.com/docs/git-commit).

@@ -1,0 +1,140 @@
+---
+title: Configuración Básica
+description: Configuración básica de un repositorio git
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+En este capítulo veremos algunas configuraciones básicas para empezar a trabajar con Git de manera ordenara y segura.
+
+:::tip
+Si ya sabes como configurar tu identidad, qué es el archivo ``.gitignore`` y qué es un ``alias`` puedes saltarte esta lección.
+:::
+
+## Configura tu identidad <Badge text="git config" variant="note" />
+
+El resto del mundo debe saber quién ha escrito ese código tan maravilloso, por eso es necesario que le digas a Git quién eres.
+Esto se hace indicando un nombre y un correo electrónico.
+
+:::note
+Cuando trabajamos con servidores remotos estos utilizan el correo electrónico que configuremos para identificarnos. Así que, si quieres que
+los cambios que publiques se asocien con una cuenta de usuario concreta, deberás utilizar ese mismo correo electrónico.
+:::
+
+Para configurar el nombre de usuario y el correo que queremos utilizar en nuestro repositorio usamos los comandos de configuración de Git:
+
+````sh frame=none
+git config user.name "Tu Nombre"
+git config user.email tucorreo@ejemplo.com
+````
+
+Esta configuración se aplicará solo para este repositorio, si vas a utilizar siempre la misma identidad, puedes configurarlo de forma global con el
+flag ``--global``. Este flag sirve para cualquier configuración.
+
+````sh frame=none
+git config --global user.name "Tu Nombre"
+git config --global user.email tucorreo@ejemplo.com
+````
+
+De esta forma, todos los cambios que añadamos a nuestro repositorio irán identificados con nuestros datos.
+
+## Crear comandos de acceso rápido <Badge text="git config alias" variant="note" />
+
+Al usar Git por consola nos encotraremos escribiendo comandos de forma habitual, algunos de estos comandos pueden ser más tediosos de utilizar,
+pero tenemos la opción de crear nombres más cómodos para llamarlos, es lo que se conoce como ``alias``.
+
+Para crear un alias de forma global podemos uar el comando ``git config --global`` seguido de la palabra ``alias`` y separado por un punto
+indicaremos el nombre del alias, seguido del comando a ejecutar:
+
+````sh frame=none
+git config --global alias.nombre_del_alias "comando"
+````
+
+Por ejemplo, el alias más común y que aconsejo que todo el mundo configure es para el comando ``checkout``, es un comando que se usa con relativa
+frecuencia pero largo, y porqué no decirlo, difícil de escribir, así que lo normal es abreviarlo como ``co``:
+
+````sh frame=none
+git config --global alias.co checkout
+````
+
+Otros ejemplos, que personalmente no utilizo son abreviaciones para ``branch``, ``commit`` o ``status``:
+
+````sh frame=none
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+````
+
+### Alias para publicar una nueva rama y conectarla con el repositorio remoto
+
+Un alias que utilizo de forma personal, y me resulta útil, simplifica el uso del comando ``push`` que sube cambios a un repositorio remoto (entraremos más
+en detalle en el futuro) para ejecutarlo de forma directa cuando creamos una rama o queremos subir una rama que no existe en el repositorio remoto:
+
+````sh frame=none
+git config --global alias.push-origin !git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
+````
+
+Este comando es algo más complejo, pero básicamente hace un ``push``, indicando que debe ser al repositorio con nombre ``origin`` y la parte de
+``"$(git rev-parse --abbrev-ref HEAD)"`` es una utilidad de git que nos devuelve el nombre de la rama actual. Además usamos el flag ``-u`` que 
+asocia nuestra rama local con la rama remota.
+
+Si nos encontramos en la rama ``feature-x``, que no existe en el repositorio remoto y queremos subir nuestros cambios estos comandos serían equivalentes:
+
+````sh frame=none
+git push-origin # uso del alias
+git push origin feature-x:feature-x -u # comando completo sin alias
+git push origin HEAD:feature-x -u # también válido, ya que HEAD es la rama actual
+````
+
+Ya explicaremos los detalles de estos comandos en el capítulo correspondiente. Por ahora nos centraremos en cómo configurar y usar alias para simplificar nuestros flujos de trabajo.
+
+## Omitir archivos del seguimiento <Badge text=".gitignore" variant="note" />
+
+En todo proyecto software es habitual que no queramos distribuir algunos de los archivos que se generan mientras desarrollamos, ya sea por seguridad
+(información sensible), por organización (archivos o variables de configuración locales) o por espacio (librerías externas y dependencias).
+
+Para ello Git nos provee la solución de especificar todos los archivos o las rutas que queremos que omita y no incluya nunca en nuestros cambios,
+a través de un fichero de configuración llamado ``.gitignore``. Este archivo se puede encontrar tanto en el directorio raíz del repositorio como en cualquier subdirectorio.
+
+Además también se pueden usar patrones para indicar grupos de archivos o directorios, por ejemplo el siguiente ``.gitignore`` de ejemplo omitiría todos
+los archivos con extensión ``.class`` de un proyecto java: 
+
+````sh title=".gitignore"
+*.class
+````
+
+En un proyecto node es indispensable omitir el directorio ``node_modules`` y todos sus subdirectorios, así, un fichero ``.gitignore`` típico para este tipo de proyectos podría ser:
+
+````sh title=".gitignore"
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+````
+
+Como podéis imaginar el fichero cambiará mucho dependiendo del sistema operativo, el tipo de proyecto, etc.
+:::tip
+No es necesario que construyamos a mano todo el archivo ``.gitignore``, existen herramientas como [gitignore.io](https://www.toptal.com/developers/gitignore/) o repositorios
+donde podemos encontrar archivos de ejemplo como [github/gitignore](https://github.com/github/gitignore).
+:::
+
+## Referencia rápida
+
+Consulta la [página de referencia rápida](/git-basics/reference/1-basic-configuration/) con todos estos comandos resumidos.
