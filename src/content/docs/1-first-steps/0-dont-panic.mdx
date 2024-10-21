@@ -8,7 +8,92 @@ En este capítulo veremos algunos conceptos básicos sobre el historial de revis
 más básicos de Git que nos ofrece información de en que estado se encuentra el repositorio en cualquier momento.
 
 :::tip
-
+Puedes saltarte este capítulo si conoces los conceptos básicos sobre ramas y el comando ``git status``
 :::
 
-## Crear un repositorio local <Badge text="git init" variant="note" />
+## Mentalidad de árbol <Badge text="ramas" variant="note" />
+
+A lo largo de esta primera parte aparecerá el concepto de ``rama`` en multiples ocasiones, se explicará en profundidad en su 
+debido momento pero, para poder entendernos, vamos a introducirlo en líneas generales.
+
+En Git, todos los cambios que hacemos se añaden al historial de versiones de forma secuencial, pero siempre trabajamos
+sobre una rama; se pueden considerar como líneas de trabajo. Si nunca creamos nuevas ramas estaremos trabajando siempre sobre
+la rama principal.
+
+:::note[¿Sabías esto?]
+La rama principal suele recibir el nombre de ``master`` o ``main``.
+:::
+
+### ¿Qué utilidad tiene el trabajo en ramas?
+
+Trabajar con ramas nos permite realizar cambios en nuestra base de código sin afectar a la rama principal o los desarrollos que
+estén realizando otros miembros del equipo. Además, es útil para agrupar todos los cambios relacionados con el mismo desarrollo,
+en un único cambio en la rama principal.
+
+Esto es posible gracias a la fusión (``merge``) de ramas, una vez hemos terminado de trabajar con una rama podemos fusionarla,
+llevar sus cambios, sobre otra, por ejemplo la rama principal. Cuando hemos fusionado una rama podemos considerar que ya no tiene utilidad y eliminarla.
+
+![Ejemplo del estado de las ramas de un repositorio. Fuente: https://www.atlassian.com/git/tutorials/using-branches](../../../assets/images/git-branch.svg)
+
+Cuando creamos una nueva rama se crea desde el punto actual en el que nos encontramos, ese punto es el que se usará como referencia
+a la hora de fusionar los cambios con la rama de origen, o padre.
+
+:::note
+Según el flujo de trabajo es habitual contar con ramas como ``develop``, donde se van introduciendo los cambios que están en
+desarrollo antes de llevarlos a producción.
+
+También es habitual, y una buena práctica, crear ramas para desarrollar funcionalidades o fixes (cambios que solucionan errores,
+bugs).
+:::
+
+Lo más común es que cada desarrollador realice cambios acotados en ramas distintas, con ciclos de vida cortos, que se van
+fusionando con alguna de las ramas principales. Esto permite que todas las ramas se creen desde un punto común, cada uno pueda
+realizar los cambios necesarios sin afectar al resto y esos cambios se unifiquen a medida que se fusionan las ramas.
+
+## ¡¿Qué está pasando?! <Badge text="git status" variant="note" />
+
+Si en algún momento no estás seguro o segura de en que estado está tu repositorio local o tu rama, que archivos has modificado
+o en que rama te encuentras, siempre puedes contar con la ayuda del comando ``git status``.
+
+Este comando nos ofrece información sobre la rama actual en la que nos encontramos, todos los archivos que han sido modificados,
+su estado, el estado de una fusión entre ramas, etc.
+
+````sh frame=none
+git status
+````
+
+````sh title="Ejemplo de la salida en el momento de escribir este fichero"
+On branch dont-panic
+Your branch is up to date with 'origin/dont-panic'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   src/content/docs/1-first-steps/0-dont-panic.mdx    
+
+no changes added to commit (use "git add" and/or "git commit -a")
+````
+
+Si tienes dudas sobre el estado de tu repositorio local siempre puedes hacer uso de este comando, no lo olvides.
+
+### No tengas miedo
+
+La mayoría de problemas que pueden surgir con el uso de Git tienen fácil solución, no te agobies, además al aprender a usarlo
+con comandos siempre sabrás que estás haciendo y aunque decidas utilizar una solución visual aprender las bases te ayudará
+a saber que está pasando por detrás y no cometer errores.
+
+Hay un par de 'trucos' que puedes tener en cuenta para mantener la calma:
+
+- Si tienes dudas sobre algún cambio que vayas a ejecutar puedes crear todas las ramas que quieras y los cambios que hagas
+no afectarán a la rama de origen.
+- Recuerda que es un sistema distribuído, si eliminas o rompres algo en tu repositorio local por error, podrás recuperarlo
+siempre que se encuentre en el repositorio remoto.
+- Ante la duda, crea una rama, haz un ``commit`` y súbela al repositorio remoto. Ahora puedes romper todo lo que quieras y tendrás
+una copia segura de los cambios.
+- Más adelante veremos como trabjar con ramas o como modificar el historial de versiones, lo que hará que tengas más confianza
+y aprendas como gestionar distintas situaciones.
+
+## Sigue leyendo
+
+- Resumen sobre ramas en [git-scm.com](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell).
+- Uso de ramas en [atalassion.com](https://www.atlassian.com/git/tutorials/using-branches).
