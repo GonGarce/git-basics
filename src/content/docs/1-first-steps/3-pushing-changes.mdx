@@ -1,0 +1,112 @@
+---
+title: Publicar cambios
+description: Consejos y comandos para subir cambios a un repositorio remoto de Git.
+---
+import { Badge } from '@astrojs/starlight/components';
+
+Ahora que sabemos como hacer un ``commit`` para añadir cambios a nuestro repositorio local, es hora de compartir nuestros cambios
+con el resto del mundo; vamos a ver como publicar los cambios de una rama en un repositorio remoto, es decir, como subir nuestro
+código.
+
+:::tip
+Si ya has trabajado con repositorios remotos o conoces lo básico sobre el comando ``git push`` puedes saltarte este capítulo.
+:::
+
+## Ramas locales vs Ramas remotas
+
+Tranquilidad, no estamos ante una pelea de Ents. En este momento ya deberíamos tener claros los conceptos básicos sobre repositorios
+remotos y sobre ramas, ahora hay que combinar esos conceptos para saber que pasa cuando subimos cambios a un repo.
+
+Como ya sabemos, Git es dsitribuido, lo que quiere decir que tu repositorio local y el repositorio remoto no tiene porque estar siempre
+en el mismo estado, ni tampoco tener las mismas ramas, de hecho, es habitual que creemos ramas en local para trabajar en nuevos
+desarrollos, y por lo tanto esas ramas no existirán en el repo remoto.
+
+Dada esta situación, muchas veces tendremos que especificar el nombre de la rama a la que queremos subir los cambios. Para
+facilitarnos el trabajo Git ofrece una forma de asociar las ramas locales con ramas remotas, de forma que podemos subir los 
+cambios sin tener que indicar los nombres de las ramas.
+
+:::note
+Cuando asociamos una rama local con una rama remota, Git guardará esta referencia hasta que le indiquemos lo contrario o
+borremos dicha rama.
+
+Además, también nos proporcionará información sobre el estado de la rama remota y las diferencias con la rama local, por ejemplo
+si tenemos cambios que aún no se han publicado nos dirá algo tipo:
+
+````sh frame=none
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+````
+:::
+
+## Subir cambios de ramas asociadas con el repositorio remoto <Badge text="git push" variant="note" />
+
+Cuando la rama en la que nos encontramos ya se encuentra asociada con otra rama de un repositorio remoto, publicar nuestros cambios
+es muy sencillo, solo tenemos que hacer uso del comando ``git push``.
+
+Por ejemplo, si nos encontramos en la rama ``master``, asociada a la rama ``origin/master`` (notación para indicar la rama ``master``
+del repo remoto ``origin``), solo tenemos que ejecutar:
+
+````sh frame=none
+git push
+````
+
+Lo que nos dará una salida con algo parecido a esto:
+
+````sh frame=none
+Enumerating objects: 12, done.
+Counting objects: 100% (12/12), done.
+...
+To github.com:GonGarce/Git-Basics.git
+   5c46029..26c75f6  master -> master
+````
+
+Como podéis ver, nos indica la dirección del repositorio remoto y, a continuación, muestra el hash del último cambio existente
+en el repo remoto (el identificador del commit) seguido del hash del último cambio en nuestro local, es decir, te indica el estado
+actual y el final. Por último, muestra los nombres de las ramas de origen (nuestro repo local) y de destino (el repo remoto).
+
+:::note
+Ten en cuenta que podemos subir cambios desde una rama local a una rama remota de nombre distinto. De igual forma que
+podemos asociar una rama local con otra remota de cualquier nombre, aunque no es lo habitual.
+:::
+
+## Publicar una rama no existente en el repositorio remoto <Badge text="git push" variant="note" />
+
+Bien, ya sabes como subir tus cambios desde cualquier rama relacionada con otra remota; ahora vamos
+a ver como subir los cambios desde una rama que no existe en el repositorio remoto.
+
+Por ejemplo, supongamos que acabamos de crear un nuevo repositorio local y le hemos añadido el repositorio remoto
+``origin`` como vimos en el capítulo [Crear y clonar repositorios](). Ahora mismo nos encontramos en nuestra rama ``master``
+en la que hemos hecho nuestro primer commit, pero esta rama no existe en el repositorio remoto, para publicarla tenemos 
+que indicar el repositorio remoto al que queremos subirla y el nombre de la rama.
+
+````sh frame=none
+git push origin master
+````
+
+Tan fácil como eso, dado que Git no tiene constancia de que nuestra rama esté asociada con ninguna rama remota tenemos que
+indicarle nosotros a dónde queremos subir los cambios.
+
+:::note
+El comando anterior realmente le está diciendo a Git "Sube la rama local ``master`` a la rama ``master`` del repositorio remoto
+con nombre ``origin``".
+
+Más adelante veremos como podemos publicar los cambios de la rama en la que nos encontramos a una rama cualquiera o como
+publicar cambios entre ramas con distintos nombres.
+:::
+
+## Asociar la rama local con la rama remota <Badge text="--set-upstream, -u" variant="note" />
+
+Como ya habréis adivinado, para asociar una rama local usaremos un flag junto con nuestro comando ``push``, en
+concreto usaremos el flag ``--set-upstream``, o su forma mucho más amigable ``-u``.
+
+Así, en el ejemplo anterior, cuando subimos nuestro primer commit de ``master`` al repositorio ``origin``:
+
+````sh frame=none
+git push origin master -u
+````
+De esta forma, la próxima vez que queramos subir nuestros cambios a ``master`` no tendremos que indicar el nombre del repo,
+ni la rama y bastará con hacer ``git push``, como vimos en el primer apartado.
+
+## Referencia rápida
+
+Consulta la [página de referencia rápida](/git-basics/reference/3-pushing-changes/) con todos estos comandos resumidos.
