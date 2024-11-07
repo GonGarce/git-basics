@@ -1,0 +1,130 @@
+---
+title: Basic Configuration
+description: Basic setup of a Git repository
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+In this chapter, we'll look at some basic configurations to start working with Git in an organized and secure way.
+
+:::tip
+If you already know how to set up your identity, what the `.gitignore` file is, and what an `alias` is, you can skip this lesson.
+:::
+
+## Set Up Your Identity <Badge text="git config" variant="note" />
+
+The rest of the world needs to know who wrote that wonderful code, so it's necessary to tell Git who you are. This is done by specifying a name and an email address.
+
+:::note
+When working with remote servers, they use the email we configure to identify us. So, if you want the changes you publish to be associated with a specific user account, you should use that same email address.
+:::
+
+To configure the username and email address we want to use in our repository, we use Git's configuration commands:
+
+````sh frame=none
+git config user.name "Tu Nombre"
+git config user.email tucorreo@ejemplo.com
+````
+
+This configuration will only apply to this repository. If you always use the same identity, you can configure it globally with the ``--global`` flag. This flag works for any configuration.
+
+````sh frame=none
+git config --global user.name "Tu Nombre"
+git config --global user.email tucorreo@ejemplo.com
+````
+
+This way, all changes we add to our repository will be identified with our information.
+
+## Create Command Shortcuts <Badge text="git config alias" variant="note" />
+
+When using Git via the command line, we'll often find ourselves typing commands frequently; some of these commands can be a bit tedious. However, we can create shorter names to call them, which are known as ``aliases``.
+
+To create a global alias, we can use the ``git config --global`` command followed by the word ``alias`` and, separated by a period, specify the alias name, followed by the command to execute:
+
+````sh frame=none
+git config --global alias.nombre_del_alias "comando"
+````
+
+For example, the most common alias, which I recommend everyone set up, is for the ``checkout`` command. It's a relatively frequent command, but it's long and a bit tricky to type. So, the standard abbreviation is ``co``:
+
+````sh frame=none
+git config --global alias.co checkout
+````
+
+Other examples, which I personally don't use, are abbreviations for ``branch``, ``commit`` or ``status``:
+
+````sh frame=none
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+````
+
+### Alias to Publish a New Branch and Link it to the Remote Repository
+
+A personal alias that I find useful simplifies the use of the ``push`` command, which uploads changes to a remote repository (we'll cover this in more detail later). This command can be run directly when we create a branch or want to upload a branch that doesn't exist in the remote repository:a o queremos subir una rama que no existe en el repositorio remoto:
+
+````sh frame=none
+git config --global alias.push-origin !git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
+````
+
+This command is a bit more complex, but it essentially performs a ``push`` to the repository named origin, 
+with ``"$(git rev-parse --abbrev-ref HEAD)"`` as a Git utility that returns the name of the current branch. We also use the ``-u`` flag, 
+which links our local branch with the remote branch.
+
+If we're on the ``feature-x`` branch, which doesn't exist in the remote repository, and we want to upload our changes, these commands would be equivalent:
+
+````sh frame=none
+git push-origin # uso del alias
+git push origin feature-x:feature-x -u # comando completo sin alias
+git push origin HEAD:feature-x -u # también válido, ya que HEAD es la rama actual
+````
+
+We'll explain the details of these commands in the appropriate chapter. For now, let's focus on setting up and using aliases to simplify our workflows.
+
+## Excluding Files from Tracking <Badge text=".gitignore" variant="note" />
+
+In any software project, it's common to want to exclude certain files generated during development, either for security (sensitive information), organization (local configuration files), or space reasons (external libraries and dependencies).
+
+Git provides a solution for specifying all files or paths we want to omit and never include in our changes, through a configuration file called ``.gitignore``. This file can be found both in the repository's root directory and any subdirectory.
+
+You can also use patterns to indicate groups of files or directories. For example, the following sample ``.gitignore`` file would exclude all ``.class`` files from a Java project:
+
+````sh title=".gitignore"
+*.class
+````
+
+In a Node project, it's essential to omit the ``node_modules directory and all its subdirectories. A typical ``.gitignore`` file for these types of projects might look like this:
+
+````sh title=".gitignore"
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+````
+
+As you can imagine, the file will vary significantly depending on the operating system, project type, etc.
+
+:::tip
+It's not necessary to build the entire ``.gitignore`` file manually; there are tools like  [gitignore.io](https://www.toptal.com/developers/gitignore/) or repositories where we can find example files like  [github/gitignore](https://github.com/github/gitignore).
+:::
+
+## Quick Reference
+
+Check out the [quick reference](/en/git-basics/reference/1-basic-configuration/) page for all these commands in summary.

@@ -1,0 +1,98 @@
+---
+title: Comprueba tus conocimientos
+description: Capítulo para poner a prueba los conocimientos adquiridos sobre Git con un ejercicio básico.
+---
+import { Steps } from '@astrojs/starlight/components';
+import Discover from '../../../../components/Discover.astro';
+
+Es hora de poner a prueba todos los conocimientos que has adquirido hasta ahora con un sencillo ejercicio.
+Si no recuerdas algún comando puedes volver al capítulo correspondiente o comprobar las secciones de referencias rápidas.
+
+<Steps>
+1. En primer lugar, crea una cuenta en Github si no la tienes: github.com
+
+2. Ahora vamos a crear un repositorio local en la carpeta ``my-repo``.
+</Steps>
+
+<Discover message="Descubre la solución">
+   ```sh frame=none
+   mkdir my-repo
+   cd my-repo
+   git init
+   ```
+</Discover>
+
+<Steps>
+3. Si no lo has hecho aún, configura tu email y nombre de usuarios de forma global.
+</Steps>
+
+<Discover message="Descubre la solución">
+   ```sh frame=none
+   git config --global user.name "Tu nombre"
+   git config --global user.email tuemail@gmail.com
+   ```
+</Discover>
+
+<Steps>
+4. Una vez creado nuestro repo, vamos a añadir algo de contenido. Crea algún archivo de texto.
+Por ejemplo puedes crear un archivo ``README.md`` para presentar el contenido de tu repositorio.
+
+5. Ahora que ya tenemos cosas que guardar, debemos hacer un commit para que git guarde el estado actual.
+No olvides que antes de hacer un commit debemos indicarle a git que archivos queremos añadir.
+</Steps>
+
+<Discover message="Descubre la solución">
+   ```sh frame=none
+   git add .
+   # O git add README.md
+   git commit -m "Initial commit
+   ```
+</Discover>
+
+<Steps>
+6. Bien, ya hemos hecho nuestro primer commit. Es hora de subirlo a nuestro repositorio remoto antes de que nuestro disco duro se corrompa.
+Lo primero es añadir el repositorio remoto que creamos como una fuente a nuestro repositorio local.
+</Steps>
+
+<Discover message="Descubre la solución">
+   ```sh frame=none
+   git remote add origin https://github.com/<username>/<repo>.git
+   ```
+</Discover>
+
+<Steps>
+7. Ahora sí, ya podemos subir nuestros cambios, ¿recuerdas el comando para... _empujar_ tus cambios?
+</Steps>
+
+<Discover message="Descubre la solución">
+   ```sh frame=none
+   git push origin master -u
+   ```
+</Discover>
+
+Recuerda, como nuestra rama aún no está relacionada con ninguna rama remota (de hecho el repositorio remoto aún no está iniciado),
+debemos indicarle el repositorio (que añadimos como ``origin``) y las ramas. Además usamos la opción ``-u`` para asociarlas.
+
+<Steps>
+8. Vamos a realizar otro cambio en nuestro README, añade alguna información que describa para que se va a usar el repositorio.
+Depués añade los cambios al ``staging area`` y haz un commit con un mensaje descriptivo. 
+</Steps>
+
+<Discover message="Descubre la solución">
+   ```sh frame=none
+   git add .
+   git commit -m "Update readme with project info"
+   ```
+</Discover>
+
+<Steps>
+9. Por último debemos publicar los nuevos cambios en nuestro repositorio remoto.
+</Steps>
+
+<Discover message="Descubre la solución">
+   ```sh frame=none
+   git push
+   ```
+</Discover>
+
+**¡Bravo! Ya has comenzando el camino del éxito para versionar tu código como se merece**

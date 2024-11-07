@@ -1,0 +1,62 @@
+---
+title: Descargar cambios
+description: Consejos y comandos para descargar cambios desde un repositorio remoto de Git.
+---
+import { Badge } from '@astrojs/starlight/components';
+
+Con lo visto hasta ahora podemos utilizar git para versionar nuestro código local, así como subir los cambios a un repositorio
+remoto para que estén más seguros o poder clonar el repositorio en otro entorno, pero, ¿y si he subido cambios desde el repositorio
+local de mi casa y quiero actualizar el repositorio del trabajo?
+
+En este capítulo veremos los comandos más básicos para actualizar nuestro repositorio local al estado actual de un repositorio remoto.
+
+:::tip
+Si conoces los comandos ``git pull`` y ``git fetch`` puedes saltarte esta sección.
+:::
+
+## Descargar los cambios de la rama remota asociada <Badge text="git pull" variant="note" />
+
+De forma análoga a como subimos los cambios a un repositorio reomoto cuando la rama local y remota ya están asociadas, para
+descargar los cambios, y actualizar el estado de nuestra rama remota, podemos descargar los cambios con el commando:
+
+````sh frame=none
+git pull
+````
+Este comando descargará todo el historial de cambios desde el último commit que tienen en común la rama local y la rama remota.
+Además aporta información sobre los ficheros que se han modificado y el estado de las ramas.
+
+## Descargar cambios en una nueva rama <Badge text="git fetch" variant="note" />
+
+Si queremos descargar los cambios en una rama distinta a la que nos encontramos podemos hacer uso del commando:
+
+````sh frame=none
+git fetch origin rama-remota:rama-local
+````
+
+De esta forma podemos descargar cualquier rama remota en nuestro repositorio local bajo una rama nueva, sin ver afectado el
+estado de nuestra rama actual.
+
+:::tip
+Al contrario que ``git push``, el comando ``git pull`` siempre afectará al estado actual del repositorio, incluso cuando
+indiquemos una rama local específica, los cambios se descargarán tanto en la rama indicada como en la actual.
+
+Pero no te preocupes, para eso está el comando ``fetch``.
+:::
+
+### Asociar una rama local con otra rama remota <Badge text="--set-upstream" variant="note" />
+
+Ya vimos como podemos asociar una rama cuando subimos cambios con el comando ``git push``, pero no hace hacer un push para
+asociar una rama local con una rama remota.
+
+El comando ``fetch`` nos permite asociar nuestra rama actual con cualquier rama de un repositorio remoto, por ejemmplo, estas
+secuencias de comandos serían equivalentes si nos encontramos en la rama master:
+
+````sh frame=none
+# Asociamos la rama local master con la rama remota master y subimos los cambios
+git fetch origin --set-upstream master
+git push
+
+# Hacemos todo en un solo comando
+git push origin master -u
+````
+

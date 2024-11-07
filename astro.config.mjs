@@ -36,6 +36,13 @@ export default defineConfig({
           autogenerate: { directory: '1-first-steps' },
         },
         {
+          label: 'Trabajando con ramas',
+          translations: {
+            en: 'Working with branches',
+          },
+          autogenerate: { directory: '2-branches' },
+        },
+        {
           label: 'Referencias rápidas',
           translations: {
             en: 'Quick Reference',
@@ -43,18 +50,15 @@ export default defineConfig({
           autogenerate: { directory: 'reference' },
         },
       ],
-      // Establece el inglés como el idioma predeterminado para este sitio.
       defaultLocale: 'root',
       locales: {
-        // Documentación en inglés en `src/content/docs/en/`
-        en: {
-          label: 'English',
-          lang: 'en',
-        },
-        // Documentación en árabe en `src/content/docs/es/`
         root: {
           label: 'Español',
           lang: 'es',
+        },
+        en: {
+          label: 'English',
+          lang: 'en',
         },
       },
       plugins: [
